@@ -197,3 +197,456 @@ Python Essential Reference, David M. Beazly
 > */usr/bin/python will point to Python 3. No, this is not going to happen (unless PEP 394 advocates otherwise, which is doubtful for the foreseeable future). /usr/bin/python and /usr/bin/python2 will point to Python 2.7 and /usr/bin/python3 will point to the latest supported Python 3 version.  Python 2 will be removed from the archive. No, this is not going to happen. We expect Python 2.7 to remain supported and available in Ubuntu for quite a long time, given that PEP 373 promises upstream bug fix maintenance support until 2020*
 
 <https://wiki.ubuntu.com/Python/3>
+
+---
+
+## Basics of Python
+
+
+### Running
+
+#### Interactive
+
+* Python without arguments starts up  the interpreter with a prompt that expects Python code lines 
+
+```
+    $ python
+    >>> 
+```
+
+---
+
+#### Executing files
+
+* Linux
+
+```
+    $ python file.py
+```
+
+Or if the first line is 
+
+    #!/usr/bin/env python
+
+    chmod +x file.py
+    ./file.py 
+
+---
+
+#### Integrated environments
+
+* idle
+
+    <img src="idle.png" height="500"/>
+
+---
+
+### Syntax
+
+#### Blocking
+
+* First line of a block is marked by a colon
+* Rest of the block have common indentation
+
+```
+    >>> for i in (1,2,3):
+    ...    print i
+    ... 
+    1
+    2
+    3
+```
+
+* Incorrect indentation leads to runtime error
+
+```
+    >>> for i in (1,2,3):
+    ... print i
+      File "<stdin>", line 2
+        print i
+            ^
+    IndentationError: expected an indented block
+```
+
+---
+
+#### Objects
+
+*Everything is an object*. They have 
+
+* type
+
+```
+    >>> type(3.14)
+    <type 'float'>
+```
+
+* id
+
+```
+    >>> id(3.14)
+    20489936
+```
+
+* associated data
+* associated methods (functions)
+* both
+
+#### A special object None
+
+* type Nonetype
+* default return value
+* often default function argument
+
+---
+
+#### Variables
+
+* python assignment
+
+    Var = obj
+
+* Assignment is to bind a name to an object
+* free typing
+* in compiled langs, fixed typing
+* Scalar
+* Container
+
+#### Scalar
+
+* Bool
+* Number
+    * `int`
+    * `float`
+    * `complex`
+* Character
+
+---
+
+### Bool
+
+* True
+* False
+
+```
+    >>> a = (1 > 0)
+    >>> print a
+    True
+```
+
+---
+
+### Number
+
+* int
+* float
+* complex
+
+```
+    i = 1
+    x = 3.14
+    z = 5 + 1j
+```
+
+#### Strings
+
+* *str* type
+* Single, double or triple quotes
+
+```
+    str1 = 'abc'
+    str2 = "abc"
+    str3 = "abc's"
+    str4 = """Time to learn
+    abc"""
+```
+
+---
+
+#### Container objects
+
+* Lists
+* Sets
+* Dictionaries
+
+
+#### Lists
+
+* A numbered sequence of objects
+* First element has index zero
+* Square brackets
+* [] is the empty list
+* [1, True, 'you']
+
+    >>> dir([])
+    ['__add__', '__class__', ... 'append', ...]
+
+---
+
+#### Tuples
+
+* An immutable sequence of objects
+* Similar to lists
+* () is the empty tuple
+* (1,)  contains 1 element -note the comma
+
+--
+
+#### Sets
+
+* Unordered collecetion of objects
+* Supports set operations
+
+```
+    a = set([1,2]); b = set([2,3])
+    a|b #union
+    a&b #intersection
+```
+
+---
+
+#### Dictionaries
+
+* Sets of key-value pairs
+* The key can be any immutable object
+* Very useful for complex structures
+* Efficient and highly optimized
+
+```
+empty =  {} # empty dict
+newdict = {'a':1, 'b':2}
+```
+
+Looping
+
+```
+for k in newdict:
+    print k, newdict[k]
+a 1
+b 2
+```
+
+---
+
+### Functions
+
+#### Definition
+
+```
+   def f(args):
+       #*statements*
+       ...
+       return [value]
+```
+
+#### Functions are also objects
+
+* has identity and type
+
+```
+    >>> print id(f)
+    140151617518960
+    >>> print type(f)
+    <type 'function'>
+    >>> print f
+    <function f at 0x7ff0a8b9ed70>
+```
+
+* can be passed as input arguments
+* can be returned as output arguments
+    
+---
+
+#### Invocation
+
+* Function objects can be called (obviously)
+
+      v = f(x)
+
+* Arguments are input
+* Return values output
+* Changing input arguments is possible but not recommended (side-effect)
+
+---
+
+### Modules
+
+#### Modules
+
+* a file with python source 
+   - name is the filename without the ``.py`` extension
+* a directory containing ``__init__.py``
+   - the directory contains additional submodules
+   - a multi-file module is also called a package
+* import modules to reuse code
+
+Commonly used modules
+
+* ``sys``
+* ``os``
+* ``math``
+
+---
+
+#### sys
+
+* system modules
+* needed e.g. for arguments to a script
+* `sys.argv` is a list of string arguments
+* `sys.argv\[0\]` is the file name
+
+```
+    import sys
+    infile = sys.argv[1]
+```
+
+#### *os* module
+
+* Interaction with operating system
+* Example: execute a unix command 
+
+```
+    import os
+    os.system('/bin/date')
+```
+
+---
+
+#### *math* module
+
+* all basic elementry functions
+* fundamental constants
+
+```
+    import math
+    print math.pi
+    print math.sin(math.pi/2)
+```
+
+#### Tip
+
+Many use the math modules as a desktop calculator
+
+    $ python
+    >>> from math import *
+    >>> print pi/2
+    1.57079632679
+    >>>
+
+---
+
+#### Writing/using your own modules
+
+* Suppose you have written file ``a.py`` with function ``b``
+```
+    #a.py
+    def fun():
+        ...
+        return some_value
+```
+
+* To access the same function in other code, import module
+```
+    import a
+    val = a.fun()
+```
+
+* or to import an individual function of a module
+```
+    from a import fun
+    c = fun()
+```
+
+* To import everything (generally discouraged -  difficult to read/debug)
+```
+    from a import *
+    c = fun()
+```
+
+
+---
+
+#### Grouping modules into a package
+
+* Consider the directory structure. Ways to access the function ``fun`` in a.py
+```
+    multi/
+      |- __init__.py
+      |- a.py
+      |- b.py
+```
+
+* import the package
+```
+    import multi
+    val = multi.a.fun()
+```
+
+* import submodule only
+```
+    from multi import a
+    val = a.fun()
+```
+
+* import function only
+```
+    from multi.a import fun
+    val = fun()
+```
+
+---
+
+#### Files
+
+```
+    >>> fo = open(name, 'r')
+```
+
+* opens the file name for reading
+* if is does not exist - Error
+* returns a file object assigned to variable fo
+
+```
+    >>> file_str = fo.read()
+```
+* loads the contensts of the file to a string *file_str*
+
+```
+    >>> fo.close()
+```
+* close the file when done
+
+---
+
+#### Reading text
+
+Other ways to read a file into memory
+
+* As a list of strings
+```
+    fo.readlines()
+```
+* One line at a time
+```
+    fo.readline() 
+```
+* In a for loop
+```
+    fo = open('file.txt') 
+    for line in fo:
+        *work on line*
+```
+
+The for statement is very powerful!
+First example of iterator
+
+---
+
+#### Summary
+
+
+* Basic syntax - indentation
+* Basic built in variable types
+* Scalar and container types
+* Modules and packages
+* Files
