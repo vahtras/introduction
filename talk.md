@@ -84,13 +84,13 @@ A sample submit script
 ```
 
 
-    * The first line tells the shell which program to execute the commands
-    * module sets up and redefines environment variables
-    * define a local shell variable ppn
-    * define total as the output of another shell command
-    * set PRG to the first argument
-    * set ARGS to the remaining argument
-    * execute the parallel program
+* The first line tells the shell which program to execute the commands
+* module sets up and redefines environment variables
+* define a local shell variable ppn
+* define total as the output of another shell command
+* set PRG to the first argument
+* set ARGS to the remaining argument
+* execute the parallel program
 
 ---
 
@@ -102,7 +102,6 @@ A sample submit script
 * does operations on stdin
 * puts results on stdout
 
-::
 
     $ echo yo | sed "s/o/es/"
     yes
@@ -115,13 +114,14 @@ A sample submit script
 * Structure /regexp/ {command}
 * When processing a text file, if  a line matches the rule (regexp) execute (command) on the line. 
 
-::
-
+```
     $ awk '{length > 72}' filename
-::
+```
 
+```
     $ awk -F : '/^olav/ {print $6}' /etc/passwd
     /home/olav
+```
 
 ---
 ### Perl
@@ -188,12 +188,12 @@ Python Essential Reference, David M. Beazly
 
 --
 
-### At the same time
+### On the other hand
 
-> For both Ubuntu and Debian, we have ongoing project goals to make Python 3 the default, preferred Python version in the distros.
+> *For both Ubuntu and Debian, we have ongoing project goals to make Python 3 the default, preferred Python version in the distros*
 
-> What this does not mean:
+> *What this does not mean:*
 
-> /usr/bin/python will point to Python 3. No, this is not going to happen (unless PEP 394 advocates otherwise, which is doubtful for the foreseeable future). /usr/bin/python and /usr/bin/python2 will point to Python 2.7 and /usr/bin/python3 will point to the latest supported Python 3 version.  Python 2 will be removed from the archive. No, this is not going to happen. We expect Python 2.7 to remain supported and available in Ubuntu for quite a long time, given that PEP 373 promises upstream bug fix maintenance support until 2020.  
+> */usr/bin/python will point to Python 3. No, this is not going to happen (unless PEP 394 advocates otherwise, which is doubtful for the foreseeable future). /usr/bin/python and /usr/bin/python2 will point to Python 2.7 and /usr/bin/python3 will point to the latest supported Python 3 version.  Python 2 will be removed from the archive. No, this is not going to happen. We expect Python 2.7 to remain supported and available in Ubuntu for quite a long time, given that PEP 373 promises upstream bug fix maintenance support until 2020*
 
 <https://wiki.ubuntu.com/Python/3>
