@@ -235,9 +235,17 @@ Or if the first line is
 
 #### Integrated environments
 
-* idle
+* Idle
 
     <img src="idle.png" height="500"/>
+
+---
+
+#### Integrated environments
+
+* Spyder
+
+    <img src="spyder.png" height="500"/>
 
 ---
 
