@@ -212,6 +212,7 @@ Python Essential Reference, David M. Beazly
 ```
     $ python
     >>> 
+
 ```
 
 ---
@@ -258,22 +259,24 @@ Or if the first line is
 
 ```
     >>> for i in (1,2,3):
-    ...    print i
+    ...    print(i)
     ... 
     1
     2
     3
+
 ```
 
 * Incorrect indentation leads to runtime error
 
 ```
-    >>> for i in (1,2,3):
-    ... print i
+    >>> for i in (1,2,3):                                                         #doctest: +SKIP
+    ... print(i)
       File "<stdin>", line 2
-        print i
+        print(i)
             ^
     IndentationError: expected an indented block
+
 ```
 
 ---
@@ -286,14 +289,16 @@ Or if the first line is
 
 ```
     >>> type(3.14)
-    <type 'float'>
+    <class 'float'>
+
 ```
 
 * id
 
 ```
-    >>> id(3.14)
+    >>> id(3.14)                                                                  #doctest: +SKIP
     20489936
+
 ```
 
 * associated data
@@ -338,8 +343,9 @@ Or if the first line is
 
 ```
     >>> a = (1 > 0)
-    >>> print a
+    >>> print(a)
     True
+
 ```
 
 ---
@@ -441,10 +447,10 @@ b 2
 #### Definition
 
 ```
-   def f(args):
-       #*statements*
-       ...
-       return [value]
+>>> def f(args):
+...     #*statements*
+...     return #value
+
 ```
 
 #### Functions are also objects
@@ -452,12 +458,13 @@ b 2
 * has identity and type
 
 ```
-    >>> print id(f)
+    >>> print(id(f)) #doctest: +SKIP
     140151617518960
-    >>> print type(f)
-    <type 'function'>
-    >>> print f
-    <function f at 0x7ff0a8b9ed70>
+    >>> print(type(f))
+    <class 'function'>
+    >>> print(f)     #doctest: +ELLIPSIS
+    <function f at 0x...>
+
 ```
 
 * can be passed as input arguments
@@ -537,8 +544,8 @@ Many use the math modules as a desktop calculator
 
     $ python
     >>> from math import *
-    >>> print pi/2
-    1.57079632679
+    >>> print(pi/2)
+    1.5707963267948966
     >>>
 
 ---
@@ -607,7 +614,9 @@ Many use the math modules as a desktop calculator
 #### Files
 
 ```
+    >>> name = 'somename'
     >>> fo = open(name, 'r')
+
 ```
 
 * opens the file name for reading
@@ -616,11 +625,13 @@ Many use the math modules as a desktop calculator
 
 ```
     >>> file_str = fo.read()
+
 ```
 * loads the contensts of the file to a string *file_str*
 
 ```
     >>> fo.close()
+
 ```
 * close the file when done
 
