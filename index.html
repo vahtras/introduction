@@ -137,9 +137,12 @@ class: center, middle, inverse
 
 ---
 
-# Computational Python
+&lt;script type=&#34;text/javascript&#34;
+  src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#34;&gt;
+&lt;/script&gt;
+# Introduction to Python
 
-## Olav Vahtras
+## Computational Python
 
 KTH
 
@@ -147,418 +150,206 @@ KTH
 
 layout: false
 
+# Python Basics
 
-## Scripting overview
 
-### Scripts
+## Running
 
-* Programs in a flexible high-level language
-* Interpreted 
-* Not compiled (as C, C++, Fortran)
-* Examples: python, perl, sed, awk, bash, ruby, tcl
+### Interactively
+
+* `python` without arguments starts up  the Python interpreter 
+* The interpreter reads lines one by one in the Python programming language and executes them
+* The interpreter prints prompt `&gt;&gt;&gt;` when it is waiting for input
+
+~~~
+$ python
+&gt;&gt;&gt; print(&#34;Hello world&#34;)
+Hello world
+&gt;&gt;&gt;
+~~~
+
+* A read-evaluate-print-loop (REPL)
+    - reads a Python expression
+    - evaluates the expression
+    - prints the value to the screen
+    - starting over (loop)
+
+---
+
+## Creating Python scripts
+
+### Text editors
+
+To enter code into files you need to use a text editor (not a word processor
+like Microsoft Word). A text editor is good for programming if it automatically
+colors special keywords for the programming language of that file. A simple 
+editor that fulfills this is `nano`.
+
+&lt;img src=&#34;nano.png&#34; height=&#34;250&#34;&gt;
+
+Developers survey on 
+&lt;a href=&#34;https://insights.stackoverflow.com/survey/2018/#development-environments-and-tools&#34;&gt;
+most popular programming editor
+&lt;/a&gt;: 
+normally lists editors like vim, emacs, atom, sublime.
+Spending time to learn one well is worth the investment.
 
 ---
 
-## Bash
+### IDE:s
 
-* Bourne-again shell: http://www.gnu.org/software/bash
-* Some combinations of commands are used often
-* Collect command-line commands in a file
-* Execute file
+IDE = Integrated development environment
 
-### To execute a bash script
+~~~
+$ pip install mu-editor
+$ mu-editor hello.py
+~~~
 
-* Collect the commands in file ``filename``
-
-```bash
-    $ bash filename
-```
-
-* if the first line is 
-
-```
-    #!/bin/bash 
-then  make the file executable and run
-
-```bash
-    $ chmod +x filename
-    $ ./filename
-```
----
-
-### Shell syntax
-
-Basic support for looping
-
-```bash
-    $ for i in a b c; do echo $i; done
-    a
-    b
-    c
-```
-
-and branching
-
-```
-    $ if -n &#34;$var&#34; ; then echo yes; else echo no; fi
-```
-
-Note the semi-colon (before do, before done)
+&lt;img src=&#34;mu.png&#34; height=&#34;350&#34;&gt;
 
 ---
+
+### Visual Studio Code
+
+* Microsoft open source project
+
+&lt;img src=&#34;vsc.png&#34; height=&#34;400&#34;&gt;
+
+---
+
+### Pycharm
+
+* Community and Professional editions from JetBrains
+
+&lt;img src=&#34;pycharm.png&#34; height=&#34;400&#34;&gt;
+
+* see https://www.jetbrains.com/student/
+
+---
+
+### Notebooks
+
+* work/develop in browser
+* mix documentation and code
+~~~
+$ jupyter notebook
+~~~
+&lt;img src=&#39;jupyter.png&#39; height=&#34;350&#34; &gt;
+* good for exploration/experimentation/demonstration
+* not good for writing large structured programs
+
+
+---
+
+## Some Python types
+
+Values in Python have a type
+A type determines the range of possible values and operations that can be
+performed
+
+###  Numerical
+
+* whole numbers (`int`): e.g. `-1, 7, 2000`
+* decimal numbers (`float`): `3.14, 1.0 -7.25`
+* complex numbers (`complex`): `1j, 7+5j`
+* logical (`bool`): `True`, `False`
+
+---
+
+###  String: `str`
+
+- sequence of characters
+- literal strings are written within quotation marks
+- single `&#39;` and double `&#34;` quotation marks have the same status
+- three quotation marks limit strings that can span several lines
+
+
+~~~
+&gt;&gt;&gt; print(&#34;It&#39;s time&#34;)
+It&#39;s time
+~~~
+
+
+~~~
+&gt;&gt;&gt; print(&#39;Our boss is &#34;nice&#34;. 😀&#39;)
+Our boss is &#34;nice&#34;. 😀
+~~~
+
+~~~
+&gt;&gt;&gt; print(&#34;&#34;&#34;Hello
+... world&#34;&#34;&#34;)
+Hello
+world
+~~~
+
+---
+
+## Variables
+
+* To save the value of an object it is assigned to a *variable*
+* The assignment operator is `=`
+* Assignment is to bind a name to an object
+* Python has so called free typing 
 
 ### Example
+~~~
+&gt;&gt;&gt; x = 8*9
+&gt;&gt;&gt; print(x)
+72
+~~~
 
-A sample submit script 
-
-```bash
-    #!/bin/bash
-    module add mpi
-    processes_per_node=8
-    total_processes=`expr $processes_per_node \* $SP_PROCS`
-    PRG=&#34;$1&#34;
-    shift
-    ARGS=&#34;$*&#34;
-    mpirun -np $total_processes -machinefile $SP_HOSTFILE $PRG $ARGS
-```
-
-
-* The first line tells the shell which program to execute the commands
-* module sets up and redefines environment variables
-* define a local shell variable ppn
-* define total as the output of another shell command
-* set PRG to the first argument
-* set ARGS to the remaining argument
-* execute the parallel program
+* Right-side is evaluated
+* An `int` object with value 72 is created in memory
+* An association is created with this object and the name `x`
 
 ---
 
-### Sed
-
-* stream editor
-* A version of the unix editor line-based editor &#39;ed&#39;
-* not for files
-* does operations on stdin
-* puts results on stdout
-
-
-    $ echo yo | sed &#34;s/o/es/&#34;
-    yes
-
----
-### Awk
-
-* Text processing languange
-* Named after its authors (Aho-Weinberger-Kernighan)
-* Structure /regexp/ {command}
-* When processing a text file, if  a line matches the rule (regexp) execute (command) on the line. 
-
-```
-    $ awk &#39;{length &gt; 72}&#39; filename
-```
-
-```
-    $ awk -F : &#39;/^olav/ {print $6}&#39; /etc/passwd
-    /home/olav
-```
-
----
-### Perl
-
-* Practical extraction and report language
-* Advanced text processing
-* Complex data structures
-* Object-oriented programming model
-* And much more...
-
---
-
-### but...
-
-Andreas Stefik, Susanna Siebert, Melissa Stefik, and Kim Slattery: An Empirical Comparison of the Accuracy Rates of Novices using the Quorum, Perl, and Randomo Programming Languages. PLATEAU 2011.
-
-*We present here an empirical study comparing the accuracy rates of novices writing software in three programming languages: Quorum, Perl, and Randomo. ... 
-Results showed that while Quorum users were afforded significantly greater accuracy compared to those using Perl and Randomo, **Perl users were unable to write programs more accurately than those using a language designed by chance.** *
-
-
----
-### Why python?
-
-* Simple syntax - easy to learn
-* Powerful language
-* Fast development time
-* Fun
-
----
-
-### Python 2 or 3?
-
-* Slightly incompatible
-* Most differences deal with text
-
---
-```
-    print &#34;hello&#34;   #2. A statement
-    print(&#34;hello&#34;) #3. A function call
-```
-
-* Python 2 is more supported
-* on a systems you do not control Python 2 is most likely to be installed
-
----
-
-### What does the literature recommend?  2 or 3?
-
-&gt; *A programmer may try to get you to install Python 3 and learn that. Say, &#34;When all of the Python code on your computer is Python 3, then I&#39;ll try to learn it.&#34; That should keep them busy for about 10 years. I repeat, do not use Python 3. Python 3 is not used very much, and if you learn Python 2 you can easily learn Python 3 when you need it. If you learn Python 3 then you&#39;ll still have to learn Python 2 to get anything done. Just learn Python 2 and ignore people saying Python 3 is the future.*
-
-Learn Python the Hard Way, Zed A. Shaw
-
---
-
-&gt; *Python 3.0 introduced a number of backward-incompatible changes to the language, so we expect that most major Python libraries and frameworks, including Django, will take a few years to catch up. If you&#39;re new to python and wondering whether to learn Python 2.x or Python 3.x, out advice is to stick with Python 2.x.*
-
-The definitive guide to Django, Adrian Holovaty and Jacob Kaplan-Moss
-
----
-
-&gt; *Python 3.0 is really only suitable for experimental use by seasoned Python veterans. If you are looking for stability and production quality code, stick with Python 2.x ...*
-
-Python Essential Reference, David M. Beazly
-
---
-
-### On the other hand
-
-&gt; *For both Ubuntu and Debian, we have ongoing project goals to make Python 3 the default, preferred Python version in the distros*
-
-&gt; *What this does not mean:*
-
-&gt; */usr/bin/python will point to Python 3. No, this is not going to happen (unless PEP 394 advocates otherwise, which is doubtful for the foreseeable future). /usr/bin/python and /usr/bin/python2 will point to Python 2.7 and /usr/bin/python3 will point to the latest supported Python 3 version.  Python 2 will be removed from the archive. No, this is not going to happen. We expect Python 2.7 to remain supported and available in Ubuntu for quite a long time, given that PEP 373 promises upstream bug fix maintenance support until 2020*
-
-&lt;https://wiki.ubuntu.com/Python/3&gt;
-
----
-
-## Basics of Python
-
-
-### Running
-
-#### Interactive
-
-* Python without arguments starts up  the interpreter with a prompt that expects Python code lines 
-
-```
-    $ python
-    &gt;&gt;&gt; 
-
-```
-
----
-
-#### Executing files
-
-* Linux
-
-```
-    $ python file.py
-```
-
-Or if the first line is 
-
-    #!/usr/bin/env python
-
-    chmod +x file.py
-    ./file.py 
-
----
-
-#### Integrated environments
-
-* Idle
-
-    &lt;img src=&#34;idle.png&#34; height=&#34;500&#34;/&gt;
-
----
-
-#### Integrated environments
-
-* Spyder
-
-    &lt;img src=&#34;spyder.png&#34; height=&#34;500&#34;/&gt;
-
----
-
-### Syntax
-
-#### Blocking
-
-* First line of a block is marked by a colon
-* Rest of the block have common indentation
-
-```
-    &gt;&gt;&gt; for i in (1,2,3):
-    ...    print(i)
-    ... 
-    1
-    2
-    3
-
-```
-
-* Incorrect indentation leads to runtime error
-
-```
-    &gt;&gt;&gt; for i in (1,2,3):                                                         #doctest: +SKIP
-    ... print(i)
-      File &#34;&lt;stdin&gt;&#34;, line 2
-        print(i)
-            ^
-    IndentationError: expected an indented block
-
-```
-
----
-
-#### Objects
-
-*Everything is an object*. They have 
-
-* type
-
-```
-    &gt;&gt;&gt; type(3.14)
-    &lt;class &#39;float&#39;&gt;
-
-```
-
-* id
-
-```
-    &gt;&gt;&gt; id(3.14)                                                                  #doctest: +SKIP
-    20489936
-
-```
-
-* associated data
-* associated methods (functions)
-* both
-
-#### A special object None
-
-* type Nonetype
-* default return value
-* often default function argument
-
----
-
-#### Variables
-
-* python assignment
-
-    Var = obj
-
-* Assignment is to bind a name to an object
-* free typing
-* in compiled langs, fixed typing
-* Scalar
-* Container
-
-#### Scalar
-
-* Bool
-* Number
-    * `int`
-    * `float`
-    * `complex`
-* Character
-
----
-
-### Bool
-
-* True
-* False
-
-```
-    &gt;&gt;&gt; a = (1 &gt; 0)
-    &gt;&gt;&gt; print(a)
-    True
-
-```
-
----
-
-### Number
-
-* int
-* float
-* complex
-
-```
-    i = 1
-    x = 3.14
-    z = 5 + 1j
-```
-
-#### Strings
-
-* *str* type
-* Single, double or triple quotes
-
-```
-    str1 = &#39;abc&#39;
-    str2 = &#34;abc&#34;
-    str3 = &#34;abc&#39;s&#34;
-    str4 = &#34;&#34;&#34;Time to learn
-    abc&#34;&#34;&#34;
-```
-
----
-
-#### Container objects
+## Container types
 
 * Lists
-* Sets
+* Tuples
 * Dictionaries
-
-
-#### Lists
-
-* A numbered sequence of objects
-* First element has index zero
-* Square brackets
-* [] is the empty list
-* [1, True, &#39;you&#39;]
-
-    &gt;&gt;&gt; dir([])
-    [&#39;__add__&#39;, &#39;__class__&#39;, ... &#39;append&#39;, ...]
 
 ---
 
-#### Tuples
+### Lists
 
-* An immutable sequence of objects
+* A list is a ordered sequence of elements 
+* Notation: square brackets , comma-separated
+* List can have objects of different types
+* List members are referenced with `[n]` where `n=0, 1, 2...`
+* A list can be empty, `[]`
+
+~~~
+&gt;&gt;&gt; colours = [&#39;hearts&#39;, &#39;spades&#39;, &#39;diamonds&#39;, &#39;clubs&#39;]
+&gt;&gt;&gt; values = [2, 3, 4, 5, 6, 7, 8, 9, 10, &#39;knight&#39;, &#39;queen&#39;, &#39;king&#39;, &#39;ace&#39;]
+~~~
+
+---
+
+### Tuples
+
+* An immutable (unchangeable) sequence of objects
 * Similar to lists
 * () is the empty tuple
 * (1,)  contains 1 element -note the comma
 
-
-
-#### Sets
-
-* Unordered collecetion of objects
-* Supports set operations
+Handy packing and unpacking
 
 ```
-    a = set([1,2]); b = set([2,3])
-    a|b #union
-    a&amp;b #intersection
-```
+&gt;&gt;&gt; t = 1, 2 #packing
+&gt;&gt;&gt; x, y = t #unpacking
+&gt;&gt;&gt; x, y
+(1, 2)
+&gt;&gt;&gt; x, y = y, x #swapping
+&gt;&gt;&gt; x, y
+(2, 1)
 
+
+```
 ---
 
-#### Dictionaries
+### Dictionaries
 
 * Sets of key-value pairs
 * The key can be any immutable object
@@ -570,71 +361,128 @@ empty =  {} # empty dict
 newdict = {&#39;a&#39;:1, &#39;b&#39;:2}
 ```
 
-Looping
+---
+
+### Repetition (iteration, looping)
+
+* The `for ... in` statement is used repeat the same operation for all elements of a
+sequence
+
+* A loop variable will reference the elements of the sequence, one at a time
+
+
+```python
+&gt;&gt;&gt; for e in [1, 2, 3]: 
+...    print(e)
+1
+2
+3
 
 ```
-for k in newdict:
-    print(k, newdict[k])
+
+```python
+&gt;&gt;&gt; for c in &#39;hello&#39;:
+...     print(c)
+h
+e
+l
+l
+o
+
+```
+
+
+
+```python
+&gt;&gt;&gt; for k, v in {&#39;a&#39;: 1, &#39;b&#39;: 2}.items():                                       
+...    print(k, v)
 a 1
 b 2
+
+```
+
+
+---
+
+### Branching (if statements)
+
+Conditional execution of code blocks depending on whether an expression
+evaluates to True or not:
+
+```
+&gt;&gt;&gt; if True:
+...     print(&#34;Yes&#34;)
+... else:
+...     print(&#34;No&#34;)
+Yes
+
+```
+
+```
+&gt;&gt;&gt; i = j = 0
+&gt;&gt;&gt; if i &gt; j:
+...     print(i, &#34; is larger than &#34;, j)
+... else:
+...     print(i, &#34;is smaller than or equal to&#34;, j)
+0 is smaller than or equal to 0
+
+```
+
+Most object types have some truthiness. Empty lists in a logical context
+evaluate to False, non-empty to True
+
+```
+&gt;&gt;&gt; if []:
+...     print(&#34;Non-empty list&#34;)
+... else:
+...     print(&#34;Empty list&#34;)
+Empty list
+
 ```
 
 ---
+
 
 ### Functions
 
-#### Definition
+* Functions are objects that can take some input and return some output.
+Functions are the primary way of grouping code into independent units, that can be tested and reused
+
+* Function definitions start `def`, a name,  parentheses with or without
+arguments (comma-separated) and a colon.
+The body of the function is indented with respect to the `def` keyword.
+The last line of a function definition is normally a `return` statement and determines the value of a function call
 
 ```
-&gt;&gt;&gt; def f(args):
-...     #*statements*
-...     return #value
-
-```
-
-#### Functions are also objects
-
-* has identity and type
-
-```
-    &gt;&gt;&gt; print(id(f)) #doctest: +SKIP
-    140151617518960
-    &gt;&gt;&gt; print(type(f))
-    &lt;class &#39;function&#39;&gt;
-    &gt;&gt;&gt; print(f)     #doctest: +ELLIPSIS
-    &lt;function f at 0x...&gt;
+&gt;&gt;&gt; def square(x):
+...    x2 = x * x
+...    return x2
 
 ```
 
-* can be passed as input arguments
-* can be returned as output arguments
-    
----
+* Functions are called with function name and an actual parameter. 
 
-#### Invocation
+```
+&gt;&gt;&gt; square(2)
+4
 
-* Function objects can be called (obviously)
+```
 
-      v = f(x)
+* Inside the function the formal parameter `x` becomes a reference to the actual
+parameter `2`.
 
-* Arguments are input
-* Return values output
-* Changing input arguments is possible but not recommended (side-effect)
 
 ---
 
 ### Modules
 
-#### Modules
 
 * a file with python source 
    - name is the filename without the ``.py`` extension
-* a directory containing ``__init__.py``
-   - the directory contains additional submodules
-   - a multi-file module is also called a package
-* import modules to reuse code
+* `import` modules to reuse code
+* members of module referenced with dot notation `module.member`
 
-Commonly used modules
+Commonly used Python modules
 
 * ``sys``
 * ``os``
@@ -642,19 +490,19 @@ Commonly used modules
 
 ---
 
-#### sys
+#### `sys`
 
 * system modules
 * needed e.g. for arguments to a script
 * `sys.argv` is a list of string arguments
-* `sys.argv\[0\]` is the file name
+* `sys.argv [0]` is the file name
 
-```
-    import sys
-    infile = sys.argv[1]
-```
+~~~
+import sys
+infile = sys.argv[1]
+~~~
 
-#### *os* module
+#### `os`
 
 * Interaction with operating system
 * Example: execute a unix command 
@@ -664,17 +512,15 @@ Commonly used modules
     os.system(&#39;/bin/date&#39;)
 ```
 
----
 
-#### *math* module
+#### `math`
 
-* all basic elementry functions
+* all basic elementary functions
 * fundamental constants
 
 ```
     import math
-    print math.pi
-    print math.sin(math.pi/2)
+    print(math.sin(math.pi/2))
 ```
 
 #### Tip
@@ -689,125 +535,111 @@ Many use the math modules as a desktop calculator
 
 ---
 
-#### Writing/using your own modules
+### Writing/using your own modules
 
-* Suppose you have written file ``a.py`` with function ``b``
-```
-    #a.py
-    def fun():
-        ...
-        return some_value
-```
+* Suppose you have written file ``hello.py`` with function ``say_hello``
 
-* To access the same function in other code, import module
-```
-    import a
-    val = a.fun()
-```
+~~~
+#hello.py
+def say_hello():
+    return &#34;Hello world!&#34;
+~~~
 
-* or to import an individual function of a module
-```
-    from a import fun
-    c = fun()
-```
+* To access the same function in other code, import the module
 
-* To import everything (generally discouraged -  difficult to read/debug)
-```
-    from a import *
-    c = fun()
-```
-
+~~~
+&gt;&gt;&gt; import hello
+&gt;&gt;&gt; message = hello.say_hello()
+&gt;&gt;&gt; print(message)
+Hello world!
+~~~
 
 ---
 
-#### Grouping modules into a package
+### Sample code: multiplication table
 
-* Consider the directory structure. Ways to access the function ``fun`` in a.py
-```
-    multi/
-      |- __init__.py
-      |- a.py
-      |- b.py
-```
+Version 1: if we only know print
+~~~
+print(1 * 7)
+print(2 * 7)
+print(3 * 7)
+~~~
 
-* import the package
-```
-    import multi
-    val = multi.a.fun()
-```
+Version 2: extract the varying data to a variable
+~~~
+i = 1
+print(i * 7)
+i = 2
+print(i * 7)
+i = 3
+print(i * 7)
+~~~
 
-* import submodule only
-```
-    from multi import a
-    val = a.fun()
-```
+Version 3: introduction the for loop, indented blocks
+~~~
+for i in (1, 2, 3, 4, 5, 6, 7, 8 , 9, 10):
+    print(i * 7)
+~~~
 
-* import function only
-```
-    from multi.a import fun
-    val = fun()
-```
-
----
-
-#### Files
-
-```
-    &gt;&gt;&gt; name = &#39;somename&#39;
-    &gt;&gt;&gt; fo = open(name, &#39;r&#39;)
-
-```
-
-* opens the file name for reading
-* if is does not exist - Error
-* returns a file object assigned to variable fo
-
-```
-    &gt;&gt;&gt; file_str = fo.read()
-
-```
-* loads the contensts of the file to a string *file_str*
-
-```
-    &gt;&gt;&gt; fo.close()
-
-```
-* close the file when done
+Version 4: the `range` function
+~~~
+n = 7
+for i in range(1, 11):
+    print(i * n)
+~~~
 
 ---
 
-#### Reading text
+Version 5: define as a function
+~~~
+def print_mult_table(n):
+    for i in range(1, 11):
+        print(i * n)
+~~~
 
-Other ways to read a file into memory
+Version 6: call the function from the command line
+~~~
+def print_mult_table(n):
+    for i in range(1, 11):
+        print(i * n)
 
-* As a list of strings
-```
-    fo.readlines()
-```
-* One line at a time
-```
-    fo.readline() 
-```
-* In a for loop
-```
-    fo = open(&#39;file.txt&#39;) 
-    for line in fo:
-        *work on line*
-```
+if __name__ == &#34;__main__&#34;:
+    
+    import sys
+    print_mult_table(int(sys.argv[1]))
+~~~
 
-The for statement is very powerful!
-First example of iterator
+* the system variable `__name__` has the value `&#34;__main__&#34;` (double underscores)
+when the file is executed as a program
+* it has the value equal to the file name when it is imported as a module
+* command-line argments appear in the system variable `sys.argv`, a Python list
+which has the file name as the first member (of index zero)
+
+A common pattern when a file is used both as an independent script and as a
+module imported by other programs
 
 ---
 
-#### Summary
-
+### Summary
 
 * Basic syntax - indentation
 * Basic built in variable types
 * Scalar and container types
-* Modules and packages
-* Files
+* Functions
+* Modules
+
+### Standard documentation
+* https://docs.python.org/3
+
+### On-line books
+* Jake van der Plas: 
+&lt;a href=&#34;http://nbviewer.jupyter.org/github/jakevdp/WhirlwindTourOfPython/blob/master/Index.ipynb&#34;&gt; A Worldwind Tour of Python&lt;/a&gt;
+* Jake van der Plas: &lt;a href=&#34;https://jakevdp.github.io/PythonDataScienceHandbook/&#34;&gt;Data Science Handbook&lt;/a&gt;
+* Al Sweigart: &lt;a href=&#34;https://automatetheboringstuff.com&#34;&gt;Automate the Boring Stuff with Python&lt;/a&gt;
+
+### On-line tutorials
+* https://docs.python.org/3/tutorial/
+* https://realpython.com
     </textarea>
 
     <script src="/introduction/refreeze/js/remark-latest.min.js" type="text/javascript"></script>
