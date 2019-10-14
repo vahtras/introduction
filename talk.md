@@ -404,7 +404,7 @@ Or if the first line is
 * () is the empty tuple
 * (1,)  contains 1 element -note the comma
 
---
+
 
 #### Sets
 
@@ -435,7 +435,7 @@ Looping
 
 ```
 for k in newdict:
-    print k, newdict[k]
+    print(k, newdict[k])
 a 1
 b 2
 ```

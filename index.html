@@ -5,9 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <style type="text/css">
-      @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
-      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
       body {
         font-family: 'Droid Serif';
@@ -351,6 +351,7 @@ Python Essential Reference, David M. Beazly
 ```
     $ python
     &gt;&gt;&gt; 
+
 ```
 
 ---
@@ -374,9 +375,17 @@ Or if the first line is
 
 #### Integrated environments
 
-* idle
+* Idle
 
     &lt;img src=&#34;idle.png&#34; height=&#34;500&#34;/&gt;
+
+---
+
+#### Integrated environments
+
+* Spyder
+
+    &lt;img src=&#34;spyder.png&#34; height=&#34;500&#34;/&gt;
 
 ---
 
@@ -389,22 +398,24 @@ Or if the first line is
 
 ```
     &gt;&gt;&gt; for i in (1,2,3):
-    ...    print i
+    ...    print(i)
     ... 
     1
     2
     3
+
 ```
 
 * Incorrect indentation leads to runtime error
 
 ```
-    &gt;&gt;&gt; for i in (1,2,3):
-    ... print i
+    &gt;&gt;&gt; for i in (1,2,3):                                                         #doctest: +SKIP
+    ... print(i)
       File &#34;&lt;stdin&gt;&#34;, line 2
-        print i
+        print(i)
             ^
     IndentationError: expected an indented block
+
 ```
 
 ---
@@ -417,14 +428,16 @@ Or if the first line is
 
 ```
     &gt;&gt;&gt; type(3.14)
-    &lt;type &#39;float&#39;&gt;
+    &lt;class &#39;float&#39;&gt;
+
 ```
 
 * id
 
 ```
-    &gt;&gt;&gt; id(3.14)
+    &gt;&gt;&gt; id(3.14)                                                                  #doctest: +SKIP
     20489936
+
 ```
 
 * associated data
@@ -469,8 +482,9 @@ Or if the first line is
 
 ```
     &gt;&gt;&gt; a = (1 &gt; 0)
-    &gt;&gt;&gt; print a
+    &gt;&gt;&gt; print(a)
     True
+
 ```
 
 ---
@@ -529,7 +543,7 @@ Or if the first line is
 * () is the empty tuple
 * (1,)  contains 1 element -note the comma
 
---
+
 
 #### Sets
 
@@ -560,7 +574,7 @@ Looping
 
 ```
 for k in newdict:
-    print k, newdict[k]
+    print(k, newdict[k])
 a 1
 b 2
 ```
@@ -572,10 +586,10 @@ b 2
 #### Definition
 
 ```
-   def f(args):
-       #*statements*
-       ...
-       return [value]
+&gt;&gt;&gt; def f(args):
+...     #*statements*
+...     return #value
+
 ```
 
 #### Functions are also objects
@@ -583,12 +597,13 @@ b 2
 * has identity and type
 
 ```
-    &gt;&gt;&gt; print id(f)
+    &gt;&gt;&gt; print(id(f)) #doctest: +SKIP
     140151617518960
-    &gt;&gt;&gt; print type(f)
-    &lt;type &#39;function&#39;&gt;
-    &gt;&gt;&gt; print f
-    &lt;function f at 0x7ff0a8b9ed70&gt;
+    &gt;&gt;&gt; print(type(f))
+    &lt;class &#39;function&#39;&gt;
+    &gt;&gt;&gt; print(f)     #doctest: +ELLIPSIS
+    &lt;function f at 0x...&gt;
+
 ```
 
 * can be passed as input arguments
@@ -668,8 +683,8 @@ Many use the math modules as a desktop calculator
 
     $ python
     &gt;&gt;&gt; from math import *
-    &gt;&gt;&gt; print pi/2
-    1.57079632679
+    &gt;&gt;&gt; print(pi/2)
+    1.5707963267948966
     &gt;&gt;&gt;
 
 ---
@@ -738,7 +753,9 @@ Many use the math modules as a desktop calculator
 #### Files
 
 ```
+    &gt;&gt;&gt; name = &#39;somename&#39;
     &gt;&gt;&gt; fo = open(name, &#39;r&#39;)
+
 ```
 
 * opens the file name for reading
@@ -747,11 +764,13 @@ Many use the math modules as a desktop calculator
 
 ```
     &gt;&gt;&gt; file_str = fo.read()
+
 ```
 * loads the contensts of the file to a string *file_str*
 
 ```
     &gt;&gt;&gt; fo.close()
+
 ```
 * close the file when done
 
